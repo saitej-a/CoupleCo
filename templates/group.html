@@ -124,6 +124,7 @@
 
   <!-- Swiper -->
   <div class="swiper-container">
+    
     <div class="swiper-wrapper">
 
       <!-- Song Section -->
@@ -131,19 +132,24 @@
         <!-- Music Player -->
         <div id="music-player">
           <h2>Now Playing</h2>
-          <video src="https://www.youtube.com/embed/2Ub05U0o8oY"></video>
+          <iframe width="640" height="360" src="https://www.youtube.com/embed/q0OUg45mNF4" title="Urumula Rammantine Merupula Rammantine full song |prk entertainment| Telugu dj, Dj Songs Telugu" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" autoplay="true" muted="false" allowfullscreen="true"></iframe>
+          
+
+
         </div>
         <!-- Search Bar -->
+        <form action="" method="get">
         <div id="search-bar">
           <input type="text" placeholder="Search for music...">
         </div>
+        </form>
       </div>
 
       <!-- Chat Section -->
       <div class="swiper-slide" id="chat-section" style="width: 337px;">
         <!-- Chat Box -->
         <div id="chat-box">
-          <h2>Chat Room</h2>
+          <h2>Room id: {{roomid}}</h2>
           <div id="messages">
             <!-- Placeholder messages -->
             <p>User1: Hello!</p>
@@ -181,6 +187,7 @@
       },
     });
   </script>
+  
 
 </body>
 </html>

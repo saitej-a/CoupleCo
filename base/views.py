@@ -6,6 +6,7 @@ from django.contrib.auth import login
 from django.http import HttpResponse
 import random
 import string
+from .models import Participant,Room,Messages
 # Create your views here.
 
 
@@ -58,11 +59,31 @@ def logoutpage(request):
 
 def join(request):
     username=request.user
-    
-    return render(request,'creation.html',{'username':username})
+    if request.method=="POST":
+        room_id=request.POST.get('room_id')
+        
+        
+        try:
+            room=Room.objects.get(id=room_id)
+            bl,participant=Participant.objects.get_or_create(users=request.user,room=room)
+            return redirect('loginroom',pk=room_id)
+
+        except:
+            print('there is no room with this code')
+        
+    return render(request,'creation.html',{'username':username,})
 
 def room(request,pk):
     username=request.user
+    room,bl2=Room.objects.get_or_create(id=pk)
+    participat,bl=Participant.objects.get_or_create(users=request.user,room=room)
+
     
-    
-    return render(request,'group.html',{'username':username})
+    room=room.id
+
+    return render(request,'group.html',{'username':username,"roomid":room})
+def loginroom(request,pk):
+    username=request.user
+    room=pk
+
+    return render(request,'group.html',{'username':username,"roomid":room})

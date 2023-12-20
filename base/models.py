@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 
 # Create your models here.
 class Room(models.Model):
-    participants=models.ForeignKey("Participant",on_delete=models.CASCADE)
+    
     id=models.TextField(primary_key=True)
 
 
@@ -21,6 +21,8 @@ class Messages(models.Model):
         return self.body
 
 class Participant(models.Model):
-    users=models.ManyToManyField(User,related_name="users1")
+    users=models.ForeignKey(User,on_delete=models.CASCADE,related_name="users1")
+    room=models.ForeignKey(Room,on_delete=models.CASCADE)
     def __int__(self):
         return self.id
+    

@@ -78,17 +78,18 @@
 <body>
 
   {% include 'nav.html' %}
-
+  <form action="" method="POST">
+    {% csrf_token %}
   <div class="container">
     <h1>Join a Room</h1>
     <p>Enter the room code below:</p>
 
-    <input type="text" placeholder="Room Code">
+    <input type="text" placeholder="Room Code" name="room_id">
 
     <div class="btn-join-container">
-      <a href="{% url 'room' roomid %}"><button class="btn-join">Join</button></a>
+      <button type="submit" class="btn-join">Join</button>
     </div>
   </div>
-
+</form>
 </body>
 </html>

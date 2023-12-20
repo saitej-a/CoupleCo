@@ -160,9 +160,9 @@
     <input type="text" value="{{roomid}}" id="roomCodeInput" readonly>
     <button onclick="copyCode()">Copy Code</button>
     <a href="{% url 'room' roomid %}"><button>Join</button></a>
-    <button onclick="closePopup()">Close</button>
+    
   </div>
-
+  
   <script>
     function openPopup() {
       document.getElementById("popup").style.display = "block";

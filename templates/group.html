@@ -1,122 +1,186 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <style>
-        body {
-            margin: 0;
-            overflow: hidden;
-            font-family: Arial, sans-serif;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Swipe Example</title>
+  <!-- Add Swiper JS and CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Arial', sans-serif;
+      overflow-x: hidden; /* Disable horizontal scrollbar */
+      background-color: #f5f5f5; /* Light background color */
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
 
-        .container {
-            display: flex;
-            height: 100vh;
-            transition: transform 0.3s ease-in-out;
-        }
+    .swiper-container {
+      width: 100vw;
+      height: 100vh;
+    }
 
-        .search-bar {
-            width: 300px;
-            background-color: #f1f1f1;
-            padding: 20px;
-            box-sizing: border-box;
-        }
+    .swiper-slide {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      height: 100vh;
+       /* Set height to 100vh */
+    }
 
-        .message-box {
-            flex-grow: 1;
-            background-color: #e0e0e0;
-            padding: 20px;
-            box-sizing: border-box;
-        }
+    #song-section {
+      background-color: #3498db; /* Blue color */
+      color: white;
+    }
 
-        .message-input {
-            width: calc(100% - 80px);
-            padding: 10px;
-            box-sizing: border-box;
-            margin-right: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            outline: none;
-            font-size: 16px;
-        }
+    #chat-section {
+      background-color: #27ae60; /* Green color */
+      color: white;
+    }
 
-        .send-button {
-            width: 70px;
-            padding: 10px;
-            box-sizing: border-box;
-            background-color: #4CAF50;
-            color: #fff;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            outline: none;
-            font-size: 16px;
-        }
-    </style>
+    h2 {
+      margin-bottom: 20px;
+    }
+
+    /* Music Player Styles */
+    #music-player {
+      margin-bottom: 20px;
+    }
+
+    audio {
+      width: 100%;
+      max-width: 300px;
+      margin-top: 10px;
+    }
+
+    /* Search Bar Styles */
+    #search-bar {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    input[type="text"] {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 10px;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+    }
+
+    /* Chat Box Styles */
+    #chat-box {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    #messages {
+      max-height: calc(100vh - 200px); /* Adjusted max-height for messages */
+      overflow-y: auto;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      padding: 10px;
+      margin-bottom: 10px;
+      width: 100%;
+      background-color: white; /* White background color for messages */
+    }
+
+    #message-input {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 16px;
+    }
+    
+
+    #send-button {
+      background-color: #fff; /* White color */
+      color: #3498db; /* Blue color */
+      border: none;
+      border-radius: 5px;
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background-color 0.3s, color 0.3s;
+    }
+
+    #send-button:hover {
+      background-color: #3498db; /* Blue color */
+      color: white;
+    }
+  </style>
 </head>
 <body>
 
-<div class="container" id="container">
-    <div class="search-bar">
-        <h2>Search Bar</h2>
-        <input type="text" placeholder="Search..." style="width: 100%;">
-    </div>
+  <!-- Swiper -->
+  <div class="swiper-container">
+    <div class="swiper-wrapper">
 
-    <div class="message-box">
-        <h2>Chat History</h2>
-        <div id="chatHistory" style="height: 200px; overflow-y: scroll; border: 1px solid #ccc; padding: 10px;"></div>
-        <div style="display: flex; margin-top: 10px;">
-            <input type="text" id="messageInput" class="message-input" placeholder="Type your message...">
-            <button onclick="sendMessage()" class="send-button">Send</button>
+      <!-- Song Section -->
+      <div class="swiper-slide" id="song-section" style="width: 337px;">
+        <!-- Music Player -->
+        <div id="music-player">
+          <h2>Now Playing</h2>
+          <video src="https://www.youtube.com/embed/2Ub05U0o8oY"></video>
         </div>
+        <!-- Search Bar -->
+        <div id="search-bar">
+          <input type="text" placeholder="Search for music...">
+        </div>
+      </div>
+
+      <!-- Chat Section -->
+      <div class="swiper-slide" id="chat-section" style="width: 337px;">
+        <!-- Chat Box -->
+        <div id="chat-box">
+          <h2>Chat Room</h2>
+          <div id="messages">
+            <!-- Placeholder messages -->
+            <p>User1: Hello!</p>
+            <p>User2: Hi there!</p>
+            <p>User1: How are you?</p>
+            <p>User2: I'm good, thanks!</p>
+            <p>User1: Great to hear!</p>
+          </div>
+          <input type="text" id="message-input" placeholder="Type your message...">
+          <button id="send-button">Send</button>
+        </div>
+      </div>
+
     </div>
-</div>
+  </div>
 
-<script>
-    function sendMessage() {
-        var messageInput = document.getElementById("messageInput");
-        var chatHistory = document.getElementById("chatHistory");
-
-        if (messageInput.value.trim() !== "") {
-            var newMessage = document.createElement("p");
-            newMessage.textContent = "You: " + messageInput.value;
-            chatHistory.appendChild(newMessage);
-            messageInput.value = "";
-            chatHistory.scrollTop = chatHistory.scrollHeight;
-        }
-    }
-
-    var container = document.getElementById("container");
-    var initialX = null;
-
-    function handleTouchStart(e) {
-        initialX = e.touches[0].clientX;
-    }
-
-    function handleTouchMove(e) {
-        if (initialX === null) {
-            return;
-        }
-
-        var currentX = e.touches[0].clientX;
-        var diffX = initialX - currentX;
-
-        if (diffX > 0) {
-            // Swiping left
-            container.style.transform = "translateX(-300px)";
-        } else {
-            // Swiping right
-            container.style.transform = "translateX(0)";
-        }
-
-        initialX = null;
-        e.preventDefault();
-    }
-
-    container.addEventListener("touchstart", handleTouchStart, false);
-    container.addEventListener("touchmove", handleTouchMove, false);
-</script>
+  <!-- Swiper JS -->
+  <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+  <!-- Your custom script -->
+  <script>
+    // Initialize Swiper
+    var swiper = new Swiper('.swiper-container', {
+      navigation: {
+        nextEl: '.swiper-button-next',
+        prevEl: '.swiper-button-prev',
+      },
+      pagination: {
+        el: '.swiper-pagination',
+        clickable: true,
+      },
+      on: {
+        slideChangeTransitionEnd: function () {
+          // Handle slide change if needed
+        },
+      },
+    });
+  </script>
 
 </body>
 </html>

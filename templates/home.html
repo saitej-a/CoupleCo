@@ -159,7 +159,7 @@
     <p>Room created! Copy the code & share:</p>
     <input type="text" value="{{roomid}}" id="roomCodeInput" readonly>
     <button onclick="copyCode()">Copy Code</button>
-    <a href="#"><button>Join</button></a>
+    <a href="{% url 'room' roomid %}"><button>Join</button></a>
     <button onclick="closePopup()">Close</button>
   </div>
 

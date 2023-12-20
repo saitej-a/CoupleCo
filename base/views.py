@@ -58,4 +58,11 @@ def logoutpage(request):
 
 def join(request):
     username=request.user
+    
     return render(request,'creation.html',{'username':username})
+
+def room(request,pk):
+    username=request.user
+    
+    
+    return render(request,'group.html',{'username':username})

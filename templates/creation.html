@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Join Room Interface</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #121212; /* Dark background color */
+      color: #e0e0e0; /* Light text color */
+    }
+
+    
+    .container {
+      text-align: center;
+      margin: 50px auto;
+      padding: 20px;
+      max-width: 600px;
+      background-color: #1e1e1e; /* Darker background color */
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+      color: #e0e0e0; /* Light text color */
+    }
+
+    p {
+      color: #bbb;
+    }
+
+    input {
+      padding: 10px;
+      margin-top: 10px;
+      width: 80%;
+      border: 1px solid #555;
+      border-radius: 5px;
+      box-sizing: border-box;
+    }
+
+    .btn-join-container {
+      margin-top: 20px;
+    }
+
+    .btn-join {
+      display: inline-block;
+      padding: 15px 30px;
+      font-size: 18px;
+      text-align: center;
+      text-decoration: none;
+      border: none;
+      border-radius: 5px;
+      background-color: #27ae60; /* Green color */
+      color: white;
+      transition: background-color 0.3s, color 0.3s;
+      cursor: pointer;
+    }
+
+    .btn-join:hover {
+      background-color: #219653; /* Darker green color */
+    }
+
+    /* Media Queries */
+    @media (max-width: 768px) {
+      .container {
+        max-width: 80%;
+      }
+
+      input {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  {% include 'nav.html' %}
+
+  <div class="container">
+    <h1>Join a Room</h1>
+    <p>Enter the room code below:</p>
+
+    <input type="text" placeholder="Room Code">
+
+    <div class="btn-join-container">
+      <button class="btn-join">Join</button>
+    </div>
+  </div>
+
+</body>
+</html>

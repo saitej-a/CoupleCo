@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            display: flex;
+            height: 100vh;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .search-bar {
+            width: 300px;
+            background-color: #f1f1f1;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .message-box {
+            flex-grow: 1;
+            background-color: #e0e0e0;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .message-input {
+            width: calc(100% - 80px);
+            padding: 10px;
+            box-sizing: border-box;
+            margin-right: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            outline: none;
+            font-size: 16px;
+        }
+
+        .send-button {
+            width: 70px;
+            padding: 10px;
+            box-sizing: border-box;
+            background-color: #4CAF50;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            outline: none;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container" id="container">
+    <div class="search-bar">
+        <h2>Search Bar</h2>
+        <input type="text" placeholder="Search..." style="width: 100%;">
+    </div>
+
+    <div class="message-box">
+        <h2>Chat History</h2>
+        <div id="chatHistory" style="height: 200px; overflow-y: scroll; border: 1px solid #ccc; padding: 10px;"></div>
+        <div style="display: flex; margin-top: 10px;">
+            <input type="text" id="messageInput" class="message-input" placeholder="Type your message...">
+            <button onclick="sendMessage()" class="send-button">Send</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    function sendMessage() {
+        var messageInput = document.getElementById("messageInput");
+        var chatHistory = document.getElementById("chatHistory");
+
+        if (messageInput.value.trim() !== "") {
+            var newMessage = document.createElement("p");
+            newMessage.textContent = "You: " + messageInput.value;
+            chatHistory.appendChild(newMessage);
+            messageInput.value = "";
+            chatHistory.scrollTop = chatHistory.scrollHeight;
+        }
+    }
+
+    var container = document.getElementById("container");
+    var initialX = null;
+
+    function handleTouchStart(e) {
+        initialX = e.touches[0].clientX;
+    }
+
+    function handleTouchMove(e) {
+        if (initialX === null) {
+            return;
+        }
+
+        var currentX = e.touches[0].clientX;
+        var diffX = initialX - currentX;
+
+        if (diffX > 0) {
+            // Swiping left
+            container.style.transform = "translateX(-300px)";
+        } else {
+            // Swiping right
+            container.style.transform = "translateX(0)";
+        }
+
+        initialX = null;
+        e.preventDefault();
+    }
+
+    container.addEventListener("touchstart", handleTouchStart, false);
+    container.addEventListener("touchmove", handleTouchMove, false);
+</script>
+
+</body>
+</html>

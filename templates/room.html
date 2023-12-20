@@ -1,0 +1,126 @@
+{% block content %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CoupleCo Login</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .login-container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 300px;
+            text-align: center;
+        }
+
+        .login-container h2 {
+            color: #333;
+        }
+
+        .login-form {
+            margin-top: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            color: #555;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .form-group button {
+            background-color: #4caf50;
+            color: #fff;
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .form-group button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    {% if login1 == True %}
+    <div class="login-container">
+        <h2>CoupleCo Register</h2>
+        <form class="login-form" action="" method="post">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="username">Username:</label>
+                {{form.username}}
+            </div>
+            <div class="form-group">
+                <label for="password">Password:</label>
+                {{form.password1}}
+            </div>
+            <div class="form-group">
+                <label for="password">Confirm Password:</label>
+                {{form.password2}}
+            </div>
+            <div>
+                {{message}}
+                <ul><li>Your password can’t be too similar to your Username.</li><li>Your password must contain at least 8 characters.</li><li>Your password can’t be entirely numeric.</li></ul>
+            </div>
+            <div class="form-group">
+                <button type="submit">Register</button>
+            </div>
+            <div>
+                <p>
+                    already a member? <a href="{% url 'signin' %}">signin</a>
+                </p>
+            </div>
+        </form>
+    </div>
+    {% else %}
+    <div class="login-container">
+        <h2>CoupleCo Login</h2>
+        <form class="login-form" action="" method="POST">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="username">Username:</label>
+                <input type="text" id="username" name="username" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+            
+           
+            <div class="form-group">
+                <button type="submit">Login</button>
+            </div>
+        </form>
+    </div>
+
+    {% endif %}
+</body>
+</html>
+
+{% endblock %}

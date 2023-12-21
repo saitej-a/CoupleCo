@@ -59,31 +59,19 @@ def logoutpage(request):
 
 def join(request):
     username=request.user
-    if request.method=="POST":
-        room_id=request.POST.get('room_id')
-        
-        
-        try:
-            room=Room.objects.get(id=room_id)
-            bl,participant=Participant.objects.get_or_create(users=request.user,room=room)
-            return redirect('loginroom',pk=room_id)
-
-        except:
-            print('there is no room with this code')
+    
         
     return render(request,'creation.html',{'username':username,})
 
-def room(request,pk):
-    username=request.user
-    room,bl2=Room.objects.get_or_create(id=pk)
-    participat,bl=Participant.objects.get_or_create(users=request.user,room=room)
+def room(request):
+    username=str(request.user)
+    room_id=""
+    if request.method=="POST":
+        room_id=request.POST.get('room_id')
+        room,bl2=Room.objects.get_or_create(id=room_id)
+        participat,bl=Participant.objects.get_or_create(users=request.user,room=room)
 
     
-    room=room.id
+    
 
-    return render(request,'group.html',{'username':username,"roomid":room})
-def loginroom(request,pk):
-    username=request.user
-    room=pk
-
-    return render(request,'group.html',{'username':username,"roomid":room})
+    return render(request,'group.html',{'username':username,"roomid":room_id})

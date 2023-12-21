@@ -35,9 +35,11 @@ INSTALLED_APPS = [
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
-    'django.contrib.messages',
+    'django.contrib.messages','daphne',
     'django.contrib.staticfiles',
-    'base.apps.BaseConfig'
+    'base.apps.BaseConfig',
+    'channels',
+    
 ]
 
 MIDDLEWARE = [
@@ -68,7 +70,19 @@ TEMPLATES = [
     },
 ]
 
+CHANNEL_LAYERS={
+    'default':{
+        'BACKEND':'channels_redis.core.RedisChannelLayer',
+        'CONFIG':{
+        'hosts':[('127.0.0.1',6379)],
+        }
+    }
+}
 WSGI_APPLICATION = 'CoupleCo.wsgi.application'
+ASGI_APPLICATION = 'CoupleCo.asgi.application'
+
+# 
+#         
 
 
 # Database

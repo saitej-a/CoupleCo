@@ -152,20 +152,17 @@
           <h2>Room id: {{roomid}}</h2>
           <div id="messages">
             <!-- Placeholder messages -->
-            <p>User1: Hello!</p>
-            <p>User2: Hi there!</p>
-            <p>User1: How are you?</p>
-            <p>User2: I'm good, thanks!</p>
-            <p>User1: Great to hear!</p>
+            
           </div>
-          <input type="text" id="message-input" placeholder="Type your message...">
+          <input type="text" id="message-input" placeholder="Type your message..." autofocus>
           <button id="send-button">Send</button>
         </div>
       </div>
 
     </div>
   </div>
-
+    {{ username|json_script:'json-username' }}
+    {{ roomid|json_script:"json-roomid" }}
   <!-- Swiper JS -->
   <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
   <!-- Your custom script -->
@@ -186,6 +183,27 @@
         },
       },
     });
+  </script>
+  <script>
+    console.log(window.location.host)
+    const chatSocket = new WebSocket("ws://"+window.location.host + "/room/{{roomid}}/");
+    chatSocket.onopen=function(e){
+      console.log("the connection was setup successfully");
+    };
+    chatSocket.onclose=function(e){
+      console.log("terminated");
+    };
+    document.querySelector("#send-button").onclick=function(e){
+      var messageInput=document.querySelector("#message-input").value;
+      chatSocket.send(JSON.stringify({message:messageInput,username:'{{ username }}'}));
+    };
+    chatSocket.onmessage=function(e){
+      const data=JSON.parse(e.data);
+      var div = document.createElement('p');
+      document.querySelector("#messages").appendChild(div);
+    }
+    
+
   </script>
   
 

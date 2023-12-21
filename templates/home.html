@@ -159,8 +159,11 @@
     <p>Room created! Copy the code & share:</p>
     <input type="text" value="{{roomid}}" id="roomCodeInput" readonly>
     <button onclick="copyCode()">Copy Code</button>
-    <a href="{% url 'room' roomid %}"><button>Join</button></a>
-    
+    <form action="{% url 'room' %}" method="post">
+      {% csrf_token %}
+    <input type="hidden" value="{{roomid}}" name="room_id">
+    <button>Join</button>
+    </form>
   </div>
   
   <script>

@@ -78,7 +78,7 @@
 <body>
 
   {% include 'nav.html' %}
-  <form action="" method="POST">
+  <form action="{% url 'room' %}" method="POST">
     {% csrf_token %}
   <div class="container">
     <h1>Join a Room</h1>

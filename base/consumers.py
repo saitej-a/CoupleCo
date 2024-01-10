@@ -86,3 +86,23 @@ class getresults(WebsocketConsumer):
         
         self.send(text_data=json.dumps({'responce':response1}))
         
+
+class selected(WebsocketConsumer):
+    def connect(self):
+        self.room_id="select"+self.scope['url_route']['kwargs']['pk']
+        async_to_sync(self.channel_layer.group_add)(self.room_id,self.channel_name)
+        self.accept()
+    def disconnect(self, code):
+        async_to_sync(self.channel_layer.group_discard)(self.room_id,self.channel_name)
+
+    def receive(self, text_data=None, bytes_data=None):
+        text_data_json=json.loads(text_data)
+        i=text_data_json['id']
+        url1='https://youtu.be/'+i
+        link=YouTube(url1)
+        streamable =link.streams.get_lowest_resolution().url
+        
+        async_to_sync(self.channel_layer.group_send)(self.room_id,{'type':'nun','streamlink':streamable})
+    def nun(self,event):
+        streamlink=event['streamlink']
+        self.send(text_data=json.dumps({'streamlink':streamlink}))

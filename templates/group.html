@@ -242,7 +242,7 @@
     });
   </script>
   <script>
-  
+    const videoplayer=document.getElementById('video');
     const chatSocket = new WebSocket("ws://"+window.location.host + "/room/{{roomid}}/");
     chatSocket.onopen=function(e){
       console.log("the connection was setup successfully");
@@ -297,7 +297,16 @@
   }
   var searchresults=document.getElementById('searchresults');
   
-  
+  const selectsocket=new WebSocket('ws://'+window.location.host+"/room/{{roomid}}/selected");
+  selectsocket.onopen=function (e){
+    console.log('select socket connected')
+  }
+  selectsocket.onmessage=function (e){
+    searchresults.innerHTML="";
+    var url=JSON.parse(e.data);
+    videoplayer.src=url['streamlink'];
+    
+}
   resultsSocket.onmessage=function (e){
     var title=JSON.parse(e.data);
     title=title['responce'];
@@ -307,8 +316,8 @@
         bu.value=title['items'][i]['id']['videoId'];
         
         bu.onclick=function (e){
-          console.log(bu.value);
-        };
+          selectsocket.send(JSON.stringify({id:bu.value}));
+        }
         var contents=document.createElement('div');
         searchresults.appendChild(bu);
         bu.appendChild(contents);
@@ -338,7 +347,7 @@
     }
   }
   const videoSocket = new WebSocket("ws://"+window.location.host + "/room/{{roomid}}/video");
-  const videoplayer=document.getElementById('video');
+  
   var butt=document.getElementById('play');
   var unmute=document.getElementById('unmute');
   function player(){

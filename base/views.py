@@ -7,6 +7,7 @@ from django.http import HttpResponse
 import random
 import string
 from .models import Participant,Room,Messages
+
 # Create your views here.
 
 
@@ -66,12 +67,18 @@ def join(request):
 def room(request):
     username=str(request.user)
     room_id=""
+    mes=''
     if request.method=="POST":
         room_id=request.POST.get('room_id')
         room,bl2=Room.objects.get_or_create(id=room_id)
         participat,bl=Participant.objects.get_or_create(users=request.user,room=room)
+        mes=Messages.objects.filter(room=room)
+    
+        
+
+        
 
     
     
 
-    return render(request,'group.html',{'username':username,"roomid":room_id})
+    return render(request,'group.html',{'username':username,"roomid":room_id,'mes':mes})

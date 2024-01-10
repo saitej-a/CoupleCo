@@ -6,6 +6,7 @@
   <title>Swipe Example</title>
   <!-- Add Swiper JS and CSS -->
   <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
+ 
   <style>
     body {
       margin: 0;
@@ -118,6 +119,32 @@
       background-color: #3498db; /* Blue color */
       color: white;
     }
+    p{
+      color: black;
+    }
+    .left{
+      display: flex;
+      justify-content: start;
+      background-color: #b3e0f7;
+      margin:10px;
+    }
+    .right{
+      display: flex;
+      justify-content: end;
+      background-color:  #4caf50;
+      margin:10px;
+      
+    }
+    .main{
+      
+      padding:10px;
+      border-radius: 10px;
+    }
+    
+    .oru{
+      color: black;
+      display: block;
+    }
   </style>
 </head>
 <body>
@@ -129,20 +156,22 @@
 
       <!-- Song Section -->
       <div class="swiper-slide" id="song-section" style="width: 337px;">
+        <div id="searchresults">
+
+
+        </div>
         <!-- Music Player -->
         <div id="music-player">
           <h2>Now Playing</h2>
-          <iframe width="640" height="360" src="https://www.youtube.com/embed/q0OUg45mNF4" title="Urumula Rammantine Merupula Rammantine full song |prk entertainment| Telugu dj, Dj Songs Telugu" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" autoplay="true" muted="false" allowfullscreen="true"></iframe>
-          
-
-
-        </div>
-        <!-- Search Bar -->
-        <form action="" method="get">
+          <video id="video" muted="true" src=""></video>
+          <button id="unmute" onclick="unmutefun()">Unmute</button>
+        <button onclick="player()" id="play">play</button>  <!-- Search Bar -->
+        
         <div id="search-bar">
-          <input type="text" placeholder="Search for music...">
-        </div>
-        </form>
+          <input type="text" placeholder="Search for music..." id="searchInput" name="searchInput">
+        <button id="searchbutton" onclick="getresults()">Search</button>
+      </div>
+        
       </div>
 
       <!-- Chat Section -->
@@ -150,9 +179,37 @@
         <!-- Chat Box -->
         <div id="chat-box">
           <h2>Room id: {{roomid}}</h2>
+          {{ request.user }}
           <div id="messages">
             <!-- Placeholder messages -->
-            
+            {% for me in mes %}
+            {% if me.sender.username == request.user %}
+              <div class="right">
+                
+                <div class="main">
+                  <div class="oru">
+                    {{me.sender.username}}
+                  </div>
+                  <div class="oru">
+                      {{me}}
+                      
+                  </div>
+                </div>
+              </div>
+                {% else %}
+                <div class="left">
+                <div class="main">
+                  <div class="oru">
+                    {{me.sender.username}}
+                  </div>
+                  <div class="oru">
+                      {{me}}
+                      
+                  </div>
+                </div>
+                {% endif %}
+              </div>  
+            {% endfor %}          
           </div>
           <input type="text" id="message-input" placeholder="Type your message..." autofocus>
           <button id="send-button">Send</button>
@@ -185,7 +242,7 @@
     });
   </script>
   <script>
-    console.log(window.location.host)
+  
     const chatSocket = new WebSocket("ws://"+window.location.host + "/room/{{roomid}}/");
     chatSocket.onopen=function(e){
       console.log("the connection was setup successfully");
@@ -196,16 +253,144 @@
     document.querySelector("#send-button").onclick=function(e){
       var messageInput=document.querySelector("#message-input").value;
       chatSocket.send(JSON.stringify({message:messageInput,username:'{{ username }}'}));
+      document.querySelector("#message-input").value='';
     };
     chatSocket.onmessage=function(e){
       const data=JSON.parse(e.data);
-      var div = document.createElement('p');
-      document.querySelector("#messages").appendChild(div);
+      var user = JSON.parse(document.getElementById('json-username').textContent);
+      var cont = document.createElement('div');
+      var div = document.createElement('div');
+      var username = document.createElement('div');
+      var msg = document.createElement('div');
+      // var br=document.createElement('br');
+      username.classList.add("oru");
+      msg.classList.add('oru');
+      div.classList.add('main');
+      div.appendChild(username);
+      // div.appendChild(br);
+      div.appendChild(msg);
+      username.innerText=data["username"];
+      msg.innerText=data["message"];
+      if (data["username"] === user){
+        cont.classList.add("right");
+        
+      }
+      else{
+        cont.classList.add("left"); 
+      }
+      cont.appendChild(div);
+      document.querySelector("#messages").appendChild(cont);
+
     }
+  const resultsSocket= new WebSocket('ws://'+window.location.host+"/room/{{roomid}}/getresults");
+  resultsSocket.onopen=function(e){
+    console.log('results socket connected');
+  }
+
+  resultsSocket.onclose=function(e){
+    console.log('results socket disconnected');
+  }
+  function getresults(){
+    var title=document.getElementById('searchInput').value;
+    resultsSocket.send(JSON.stringify({title:title}));
+    document.getElementById('searchInput').value="";
+  }
+  var searchresults=document.getElementById('searchresults');
+  
+  
+  resultsSocket.onmessage=function (e){
+    var title=JSON.parse(e.data);
+    title=title['responce'];
+    for (let i in title['items']){
+      if(title['items'][i]['id']['kind']){
+        const bu=document.createElement('button');
+        bu.value=title['items'][i]['id']['videoId'];
+        
+        bu.onclick=function (e){
+          console.log(bu.value);
+        };
+        var contents=document.createElement('div');
+        searchresults.appendChild(bu);
+        bu.appendChild(contents);
+        var thumb=document.createElement('div');
+        var im=document.createElement('img');
+        var tit=document.createElement('div');
+        contents.appendChild(thumb);
+        im.src=title['items'][i]['snippet']['thumbnails']['medium']['url'];
+        thumb.appendChild(im);
+
+        tit.textContent=title['items'][i]['snippet']['title'];
+        contents.appendChild(tit);
+        
+        // console.log(title['items'][i]['id']['videoId']);
+        // console.log(title['items'][i]['snippet']['title']);
+        // console.log(title['items'][i]['snippet']['thumbnails']['medium']['url']);
+      }
+      else{
+        continue;
+      }
+            // if (i['id']['kind']!='youtube#playlist'){
+            //     console.log(i['id']['videoId'],i['snippet']['title'],i['snippet']['thumbnails']['medium'])
+            // }
+            // else{
+            //     continue
+    // }
+    }
+  }
+  const videoSocket = new WebSocket("ws://"+window.location.host + "/room/{{roomid}}/video");
+  const videoplayer=document.getElementById('video');
+  var butt=document.getElementById('play');
+  var unmute=document.getElementById('unmute');
+  function player(){
+    if(videoplayer.paused || videoplayer.ended){
+      
+      
+        videoSocket.send(JSON.stringify({state:1}));
+    }
+  else{
+    
+    videoSocket.send(JSON.stringify({state:0}));
+    } 
+  }
+    
+  function unmutefun(){
+    if(videoplayer.muted){
+      videoplayer.muted=false;
+      unmute.textContent='mute';
+    }
+    else{
+      videoplayer.muted=true;
+      unmute.textContent='mute';
+    }
+    
+  }
+  
+ videoSocket.onmessage=function(e){
+  var state=JSON.parse(e.data);
+  state=state['state'];
+  
+  if(state===0){
+    
+    butt.textContent='play';
+    videoplayer.pause();
+    
+       
+   }
+
+
+   else{
+    butt.textContent='pause';
+    videoplayer.play();
+      
+      
+     
+   }
+ }
     
 
   </script>
-  
+
+
 
 </body>
 </html>

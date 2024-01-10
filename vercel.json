@@ -1,7 +1,7 @@
 {
     "builds": [
       {
-        "src": "CoupleCo/wsgi.py",
+        "src": "CoupleCo/asgi.py",
         "use": "@vercel/python"
       }
     ],

@@ -1,14 +1,14 @@
 {
     "builds": [
       {
-        "src": "CoupleCo/asgi.py",
+        "src": "CoupleCo/wsgi.py",
         "use": "@vercel/python"
       }
     ],
     "routes": [
       {
         "src": "/(.*)",
-        "dest": "CoupleCo/asgi.py"
+        "dest": "CoupleCo/wsgi.py"
       }
     ]
 }

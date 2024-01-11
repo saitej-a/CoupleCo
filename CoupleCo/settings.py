@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/4.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
-import django
+
 import dj_database_url
 from pathlib import Path
 
@@ -45,7 +45,7 @@ INSTALLED_APPS = [
     
 ]
 
-django.setup()
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',

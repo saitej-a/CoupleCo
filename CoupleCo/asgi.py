@@ -14,7 +14,7 @@ from channels.auth import AuthMiddlewareStack
 from channels.routing import ProtocolTypeRouter,URLRouter
 from base import routing
 
-os.environ["DJANGO_SETTINGS_MODULE"] = "Couple-Co.settings"
+os.environ["DJANGO_SETTINGS_MODULE"] = "CoupleCo.settings"
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'CoupleCo.settings')
 application = ProtocolTypeRouter(
     {

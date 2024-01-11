@@ -8,7 +8,7 @@
     "routes": [
       {
         "src": "/(.*)",
-        "dest": "CoupleCo/wsgi.py"
+        "dest": "CoupleCo/asgi.py"
       }
     ]
 }
